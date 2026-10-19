@@ -208,6 +208,33 @@ const faq = [
     </div>
   </section>
 
+  {/* REFERENCE – autentické, převzaté z topseminarky.cz (19. 10. 2026), zkrácené označeny „…“. Vybrány jen ty, které odpovídají konzultaci a korektuře. */}
+  <section class="section bg-paper-000" id="reference" aria-labelledby="reference-h">
+    <div class="container-site">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+        <div>
+          <p class="eyebrow mb-3">Reference</p>
+          <h2 id="reference-h">Co říkají <span class="mark">studenti</span></h2>
+        </div>
+        <p class="text-[14px] text-ink-500 md:text-right">Výběr z referencí na <a href={`${site.parentSite}/#reference`} class="prose-link" rel="noopener">topseminarky.cz</a>.<br class="hidden md:block" /> Jména zkracujeme kvůli soukromí.</p>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {[
+          { q: 'Vše proběhlo jak mělo, vedoucí byl velmi velmi náročný bohužel a ve finále nekomunikoval, takže jsem rád…', a: 'Honza', big: true },
+          { q: 'Nepracují jako běžná agentura, která vás stáhne o peníze a doufáte, že něco někdy dostanete.', a: 'Helena' },
+          { q: 'Největší děkuji Vám posílám a opravdu upřímně si vážím Vaší práce, času a všeho… děkuji za trpělivost se mnou.', a: 'J. N.' },
+          { q: 'Doporučuju, vše proběhlo hladce.', a: 'A. S.' },
+          { q: 'Děkuji, vše v pořádku. Jsem spokojená.', a: 'Lada' },
+        ].map((r, i) => (
+          <figure class={`bg-paper-100 p-6 md:p-8 flex flex-col justify-between gap-6 ${i === 0 ? 'lg:row-span-2 bg-teal-600 text-white' : ''}`}>
+            <blockquote class={`font-serif italic leading-[1.6] ${i === 0 ? 'text-[22px] md:text-[26px] text-white' : 'text-[17px] text-ink-900'}`}>„{r.q}“</blockquote>
+            <figcaption class={`font-condensed font-semibold uppercase tracking-[0.08em] text-[15px] ${i === 0 ? 'text-sand-200' : 'text-teal-600'}`}>— {r.a}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
   {/* FAQ */}
   <section class="section bg-paper-000" id="faq" aria-labelledby="faq-h">
     <div class="container-site grid gap-8 lg:grid-cols-[1fr_2fr]">
