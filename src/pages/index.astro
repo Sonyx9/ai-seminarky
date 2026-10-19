@@ -61,39 +61,62 @@ const faq = [
 ---
 <Base title="Oprava a kontrola závěrečné práce – i když ji škola označila za AI" description="Práci označili jako AI, neprošla kontrolou citací nebo obhajobou? Rozbor posudku, korektura, kontrola zdrojů a dopracování s vámi. Odpověď do 24 hodin, první konzultace zdarma.">
   {/* HERO */}
-  <section class="relative overflow-hidden bg-paper-000">
-    <div class="bubble w-[520px] h-[520px] -right-40 -top-56 hidden md:block"></div>
-    <div class="container-site relative section !pb-12 md:!pb-20 grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+  <section class="relative overflow-hidden bg-sand-100">
+    <div class="bubble !bg-sand-200/60 w-[640px] h-[640px] -right-56 -top-72 hidden md:block"></div>
+    <div class="bubble !bg-paper-000/70 w-[360px] h-[360px] -left-40 bottom-[-220px] hidden md:block"></div>
+    <div class="container-site relative pt-12 pb-16 md:pt-20 md:pb-24 grid gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:items-center">
       <div>
         <p class="eyebrow mb-4">Kontrola a oprava bakalářských a diplomových prací</p>
-        <h1 class="mb-5">Škola označila práci za AI, nebo neprošla? <span class="mark">Dáme ji do pořádku</span> – s vámi a poctivě.</h1>
-        <p class="lead mb-8">Projdeme posudek, najdeme, co přesně škola vytýká, a práci spolu dopracujeme tak, aby obstála u vedoucího i komise. Žádné psaní za vás, žádné triky na detektory.</p>
-        <div class="flex flex-col sm:flex-row gap-3 mb-8">
-          <a href="#formular" class="btn-primary">Nezávazně poptat</a>
-          <a href={site.phoneHref} class="btn-outline"><Icon name="phone" size={18} />{site.phone}</a>
+        <h1 class="mb-5 md:!text-[46px] md:!leading-[1.2]">Škola napsala <span class="relative whitespace-nowrap"><span class="relative z-10">„podezření na AI“</span><span class="absolute inset-x-0 bottom-1 h-3 bg-coral-500/25 -z-0" aria-hidden="true"></span></span>? Z posudku uděláme <span class="mark">plán, který obhájíte.</span></h1>
+        <p class="lead mb-8">Rozebereme, co přesně škola vytýká, doplníme zdroje a citace a práci s vámi dopracujeme tak, aby obstála u vedoucího i komise. Nepíšeme za vás a neladíme text na detektory.</p>
+        <div class="flex flex-col sm:flex-row gap-3 mb-10">
+          <a href="#formular" class="btn-primary">Nezávazně poptat rozbor</a>
+          <a href={site.phoneHref} class="btn-outline !bg-paper-000"><Icon name="phone" size={18} />{site.phone}</a>
         </div>
-        <ul class="flex flex-wrap gap-x-8 gap-y-3 text-[15px] text-ink-700">
-          <li class="flex items-center gap-2"><Icon name="check" size={18} class="text-coral-500" />Odpověď do 24 hodin, i o víkendu</li>
-          <li class="flex items-center gap-2"><Icon name="check" size={18} class="text-coral-500" />První konzultace zdarma</li>
-          <li class="flex items-center gap-2"><Icon name="check" size={18} class="text-coral-500" />{site.proof}</li>
-        </ul>
+        <dl class="grid grid-cols-3 gap-4 max-w-[520px] border-t border-ink-900/15 pt-6">
+          <div><dt class="sr-only">Studentů</dt><dd class="font-condensed font-semibold text-[40px] md:text-[48px] leading-none text-teal-600">800+</dd><p class="text-[14px] text-ink-700 mt-2 leading-snug">studentů, kterým jsme pomohli</p></div>
+          <div><dt class="sr-only">Odpověď</dt><dd class="font-condensed font-semibold text-[40px] md:text-[48px] leading-none text-teal-600">24 h</dd><p class="text-[14px] text-ink-700 mt-2 leading-snug">na odpověď, i o víkendu</p></div>
+          <div><dt class="sr-only">První konzultace</dt><dd class="font-condensed font-semibold text-[40px] md:text-[48px] leading-none text-teal-600">0 Kč</dd><p class="text-[14px] text-ink-700 mt-2 leading-snug">za první konzultaci</p></div>
+        </dl>
       </div>
-      <aside class="bg-paper-100 p-6 md:p-8" aria-label="Co dostanete">
-        <p class="eyebrow mb-4">Co dostanete</p>
-        <ul class="flex flex-col gap-4">
-          {[
-            ['Rozbor posudku', 'Co přesně škola vytýká a které pasáže to řeší.'],
-            ['Plán úprav', 'Seznam konkrétních kroků, pořadí a termíny.'],
-            ['Korektura a citace', 'Jazyk, styl, zdroje a norma vaší školy.'],
-            ['Text, který obhájíte', 'Shrnutí změn pro vedoucího i komisi.'],
-          ].map(([t, d]) => (
-            <li class="flex gap-4">
-              <span class="w-10 h-10 shrink-0 rounded-full bg-coral-500 text-white inline-flex items-center justify-center"><Icon name="check" size={20} /></span>
-              <div><p class="font-serif font-semibold text-[17px] text-teal-600 leading-snug">{t}</p><p class="text-[15px] text-ink-700">{d}</p></div>
-            </li>
-          ))}
-        </ul>
-      </aside>
+
+      {/* Vizuál: posudek s označenými pasážemi → plán úprav (čisté HTML, žádný stock) */}
+      <div class="relative mx-auto w-full max-w-[520px] lg:mr-0" aria-hidden="true">
+        <div class="relative bg-paper-000 shadow-[0_24px_48px_-24px_rgba(51,51,51,0.35)] p-6 md:p-8 md:-rotate-[1.5deg]">
+          <div class="flex items-center justify-between mb-5">
+            <p class="font-condensed font-semibold uppercase tracking-[0.08em] text-[13px] text-ink-500">Posudek vedoucího · kap. 2</p>
+            <span class="font-condensed font-semibold uppercase tracking-[0.06em] text-[13px] bg-coral-100 text-coral-600 px-2 py-1">AI: 41 %</span>
+          </div>
+          <div class="space-y-2.5">
+            <div class="h-2 rounded-sm bg-paper-200 w-full"></div>
+            <div class="h-2 rounded-sm bg-paper-200 w-[92%]"></div>
+            <div class="relative">
+              <div class="h-2 rounded-sm bg-coral-500/35 w-[96%]"></div>
+              <div class="h-2 rounded-sm bg-coral-500/35 w-[70%] mt-2.5"></div>
+              <p class="absolute -right-2 md:-right-28 -top-7 md:top-0 text-[12px] leading-tight text-teal-600 bg-teal-100 px-2 py-1 md:w-[120px] md:rotate-[1.5deg]">chybí zdroj → doplnit z vaší rešerše</p>
+            </div>
+            <div class="h-2 rounded-sm bg-paper-200 w-[88%]"></div>
+            <div class="h-2 rounded-sm bg-paper-200 w-full"></div>
+            <div class="h-2 rounded-sm bg-paper-200 w-[64%]"></div>
+            <div class="relative pt-1">
+              <div class="h-2 rounded-sm bg-coral-500/35 w-[85%]"></div>
+              <p class="absolute -right-2 md:-right-28 top-5 md:top-0 text-[12px] leading-tight text-teal-600 bg-teal-100 px-2 py-1 md:w-[120px] md:rotate-[1.5deg]">obecné tvrzení → vaše data z kap. 3</p>
+            </div>
+            <div class="h-2 rounded-sm bg-paper-200 w-[94%] !mt-6"></div>
+            <div class="h-2 rounded-sm bg-paper-200 w-[78%]"></div>
+          </div>
+          <p class="mt-6 font-serif italic text-[14px] text-ink-700 border-t border-line-200 pt-4">„Text působí obecně, u řady tvrzení chybí odkaz na zdroj.“</p>
+        </div>
+
+        <div class="relative -mt-6 ml-auto mr-0 md:-mr-6 w-[86%] bg-teal-600 text-white p-5 md:p-6 md:rotate-[1deg]">
+          <p class="font-condensed font-semibold uppercase tracking-[0.08em] text-[13px] text-sand-200 mb-3">Plán úprav</p>
+          <ul class="space-y-2 text-[15px]">
+            <li class="flex gap-2"><Icon name="check" size={18} class="shrink-0 mt-0.5 text-sand-200" /><span>12 pasáží podložit zdroji</span></li>
+            <li class="flex gap-2"><Icon name="check" size={18} class="shrink-0 mt-0.5 text-sand-200" /><span>citace sjednotit podle ČSN ISO 690</span></li>
+            <li class="flex gap-2"><span class="w-[18px] h-[18px] shrink-0 mt-0.5 rounded-full border-2 border-sand-200/70"></span><span>kap. 2 přepsat s vaším výzkumem</span></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 

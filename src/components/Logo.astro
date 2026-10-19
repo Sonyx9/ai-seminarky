@@ -1,10 +1,9 @@
 ---
-/** Dočasný textový wordmark podle design systému – dokud klientka nedodá vektorové logo. */
+/** Logo TOPseminarky.cz (PNG 768×150; vektorovou verzi doplnit, až bude k dispozici). */
 import { url } from '../lib/site';
 interface Props { class?: string }
 const { class: cls = '' } = Astro.props;
 ---
-<a href={url('/')} class={`inline-flex items-baseline gap-1 no-underline font-serif leading-none ${cls}`} aria-label="Oprava závěrečné práce – úvodní stránka">
-  <span class="font-bold text-coral-500 text-[22px]">TOP</span>
-  <span class="italic text-teal-600 text-[20px]">seminárky</span>
+<a href={url('/')} class={`inline-flex items-center no-underline ${cls}`} aria-label="TOPseminarky.cz – úvodní stránka">
+  <img src={url('/img/logo-topseminarky.png')} alt="TOPseminarky.cz" width="768" height="150" class="h-9 w-auto sm:h-10" />
 </a>
