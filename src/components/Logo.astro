@@ -1,0 +1,10 @@
+---
+/** Dočasný textový wordmark podle design systému – dokud klientka nedodá vektorové logo. */
+import { url } from '../lib/site';
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+---
+<a href={url('/')} class={`inline-flex items-baseline gap-1 no-underline font-serif leading-none ${cls}`} aria-label="Oprava závěrečné práce – úvodní stránka">
+  <span class="font-bold text-coral-500 text-[22px]">TOP</span>
+  <span class="italic text-teal-600 text-[20px]">seminárky</span>
+</a>

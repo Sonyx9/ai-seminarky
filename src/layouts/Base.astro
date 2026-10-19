@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Consent from '../components/Consent.astro';
+import { site, isStaging, url } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Vynutit noindex i na produkci (děkovací stránka, 404). */
+  noindex?: boolean;
+  /** Skrýt kontaktní CTA v hlavičce (např. na /dekujeme/). */
+  minimalHeader?: boolean;
+}
+const { title, description, noindex = false, minimalHeader = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const robots = isStaging || noindex ? 'noindex, nofollow' : 'index, follow';
+const fullTitle = title.includes(site.shortName) ? title : `${title} | ${site.shortName}`;
+---
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <meta name="theme-color" content="#199cb2" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="cs_CZ" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@500;600&family=Poppins:wght@400;600&display=swap"
+    />
+    <slot name="head" />
+  </head>
+  <body class="min-h-dvh flex flex-col">
+    <a href="#obsah" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-paper-000 focus:px-4 focus:py-2 focus:text-teal-600">Přeskočit na obsah</a>
+    {isStaging && (
+      <div class="bg-sand-100 text-ink-900 text-[14px] text-center px-4 py-2 border-b border-line-200">
+        Testovací verze webu – neindexuje se, poptávky z formuláře chodí jen na testovací adresy.
+      </div>
+    )}
+    <Header minimal={minimalHeader} />
+    <main id="obsah" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <Consent />
+  </body>
+</html>

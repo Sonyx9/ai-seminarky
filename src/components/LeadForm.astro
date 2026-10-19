@@ -1,0 +1,183 @@
+---
+/**
+ * Poptávkový formulář (metodika §8). Funguje jako klasický POST bez JS; JS jen přidává
+ * inline stavy a odeslání přes fetch. Endpoint = Apps Script Web App (backend/apps-script).
+ * Spam: honeypot `website`, časové razítko `_ts` (kontroluje endpoint), limit na e-mail (endpoint).
+ */
+import Icon from './Icon.astro';
+import { formEndpoint, url, site } from '../lib/site';
+interface Props { compact?: boolean; heading?: string }
+const { compact = false, heading = 'Nezávazná poptávka' } = Astro.props;
+const redirect = new URL(url('/dekujeme/'), Astro.site).href;
+const hasEndpoint = Boolean(formEndpoint);
+const typy = ['Bakalářská práce', 'Diplomová práce', 'Seminární / ročníková práce', 'Rigorózní / disertační práce', 'MBA / jiná práce'];
+const situace = [
+  'Škola nebo vedoucí namítli použití AI',
+  'Práce neprošla kontrolou originality nebo citací',
+  'Neúspěšná obhajoba – chystám se na opravný termín',
+  'Chci práci zkontrolovat ještě před odevzdáním',
+  'Něco jiného',
+];
+---
+<form
+  id="formular"
+  class="relative bg-paper-100 p-6 md:p-8 flex flex-col gap-5"
+  method={hasEndpoint ? 'post' : 'get'}
+  action={hasEndpoint ? formEndpoint : url('/dekujeme/')}
+  data-lead-form
+  data-endpoint={formEndpoint}
+  data-redirect={redirect}
+  novalidate
+>
+  <div>
+    <h2 class="!text-[26px] mb-1">{heading}</h2>
+    <p class="text-ink-700 text-[15px]">Odpovídáme {site.responseTime}, i o víkendu. První konzultace je zdarma. Práci zatím neposílejte – řekneme si k ní, co budeme potřebovat.</p>
+  </div>
+
+  {!hasEndpoint && (
+    <p class="text-[14px] text-ink-700 bg-sand-100 px-3 py-2">Formulář zatím nemá nastavený endpoint – odeslání jen přejde na děkovací stránku (staging).</p>
+  )}
+
+  <div class="grid gap-5 md:grid-cols-2">
+    <div>
+      <label class="label" for="f-jmeno">Jméno a příjmení <span aria-hidden="true">*</span></label>
+      <input class="field" id="f-jmeno" name="jmeno" type="text" required autocomplete="name" minlength="2" maxlength="120" />
+    </div>
+    <div>
+      <label class="label" for="f-email">E-mail <span aria-hidden="true">*</span></label>
+      <input class="field" id="f-email" name="email" type="email" required autocomplete="email" inputmode="email" maxlength="160" />
+    </div>
+    <div>
+      <label class="label" for="f-telefon">Telefon <span class="text-ink-500 font-normal">(nepovinné)</span></label>
+      <input class="field" id="f-telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" />
+    </div>
+    <div>
+      <label class="label" for="f-termin">Termín odevzdání / obhajoby <span class="text-ink-500 font-normal">(nepovinné)</span></label>
+      <input class="field" id="f-termin" name="termin" type="date" />
+    </div>
+    <div>
+      <label class="label" for="f-typ">Typ práce <span aria-hidden="true">*</span></label>
+      <select class="field" id="f-typ" name="typ_prace" required>
+        <option value="">Vyberte…</option>
+        {typy.map((t) => <option value={t}>{t}</option>)}
+      </select>
+    </div>
+    <div>
+      <label class="label" for="f-situace">Co se stalo <span aria-hidden="true">*</span></label>
+      <select class="field" id="f-situace" name="situace" required>
+        <option value="">Vyberte…</option>
+        {situace.map((s) => <option value={s}>{s}</option>)}
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label class="label" for="f-zprava">Stručně popište, co práce potřebuje <span aria-hidden="true">*</span></label>
+    <textarea class="field min-h-32" id="f-zprava" name="zprava" required minlength="20" maxlength="4000" placeholder="Např. vedoucí vrátil práci s tím, že 40 % textu označil detektor jako AI; obhajoba je 15. 1."></textarea>
+  </div>
+
+  {!compact && (
+    <details class="group border border-line-200 bg-paper-000">
+      <summary class="list-none cursor-pointer flex items-center justify-between gap-3 px-4 py-3 font-condensed text-[18px] text-teal-600" data-form-expand>
+        Chci upřesnit zadání pro cenovou nabídku
+        <Icon name="chevron-down" class="transition-transform group-open:rotate-180" />
+      </summary>
+      <div class="px-4 pb-4 grid gap-4 md:grid-cols-2">
+        <div>
+          <label class="label" for="f-skola">Škola a obor</label>
+          <input class="field" id="f-skola" name="skola_obor" type="text" maxlength="160" />
+        </div>
+        <div>
+          <label class="label" for="f-rozsah">Rozsah práce (normostrany)</label>
+          <input class="field" id="f-rozsah" name="rozsah" type="number" inputmode="numeric" min="1" max="999" />
+        </div>
+        <div class="md:col-span-2">
+          <label class="label" for="f-vytka">Co přesně škola vytkla (klidně zkopírujte z posudku)</label>
+          <textarea class="field min-h-24" id="f-vytka" name="vytka" maxlength="4000"></textarea>
+        </div>
+      </div>
+    </details>
+  )}
+
+  <label class="flex items-start gap-3 text-[15px] text-ink-700">
+    <input type="checkbox" name="souhlas" value="ano" required class="mt-1 w-5 h-5 accent-teal-600" />
+    <span>Souhlasím se zpracováním údajů pro vyřízení poptávky. <a href={url('/ochrana-osobnich-udaju/')} class="prose-link">Jak s údaji nakládáme</a>.</span>
+  </label>
+
+  {/* honeypot + časové razítko + cíl přesměrování */}
+  <div class="absolute -left-[9999px] top-auto w-px h-px overflow-hidden" aria-hidden="true">
+    <label for="f-website">Web</label>
+    <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <input type="hidden" name="_ts" value="" data-ts />
+  <input type="hidden" name="_redirect" value={redirect} />
+  <input type="hidden" name="_source" value={Astro.url.pathname} />
+
+  <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+    <button type="submit" class="btn-primary w-full sm:w-auto" data-submit>
+      <span data-submit-label>Odeslat poptávku</span>
+      <Icon name="arrow-right" size={18} />
+    </button>
+    <p class="text-[14px] text-ink-500 m-0">Nezávazně. Cenu a postup dostanete e-mailem {site.responseTime}.</p>
+  </div>
+  <p class="hidden text-coral-600 text-[15px] flex items-start gap-2 m-0" role="alert" data-error>
+    <Icon name="alert" size={20} class="shrink-0 mt-0.5" /><span data-error-text>Odeslání se nepovedlo. Zkuste to znovu, nebo napište na {site.email}.</span>
+  </p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-lead-form]');
+  if (form) {
+    const ts = form.querySelector<HTMLInputElement>('[data-ts]');
+    if (ts) ts.value = String(Date.now());
+    const endpoint = form.dataset.endpoint || '';
+    const redirect = form.dataset.redirect || '/dekujeme/';
+    const btn = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const label = form.querySelector<HTMLElement>('[data-submit-label]');
+    const err = form.querySelector<HTMLElement>('[data-error]');
+    const errText = form.querySelector<HTMLElement>('[data-error-text]');
+    const expand = form.querySelector<HTMLElement>('[data-form-expand]');
+    // Volitelná událost pro ověření hypotézy rozbalovacího formuláře (metodika §8).
+    expand?.addEventListener('click', () => { (window as any).gtag?.('event', 'form_expand'); });
+
+    const showError = (msg?: string) => {
+      if (err) err.classList.remove('hidden');
+      if (msg && errText) errText.textContent = msg;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      // Nativní validace (novalidate je jen kvůli vlastním hláškám)
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        form.reportValidity();
+        return;
+      }
+      if (!endpoint) return; // staging bez endpointu: klasický GET na /dekujeme/
+      e.preventDefault();
+      if (btn) btn.disabled = true;
+      if (label) label.textContent = 'Odesílám…';
+      err?.classList.add('hidden');
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ ...data, _json: '1' }),
+          redirect: 'follow',
+        });
+        const out = await res.json().catch(() => ({}));
+        if (res.ok && out.ok) {
+          window.location.assign(`${redirect}?id=${encodeURIComponent(out.id || '')}`);
+          return;
+        }
+        showError(out.error || undefined);
+      } catch {
+        // fetch selhal (např. CORS / síť) → nechat proběhnout klasický POST s redirect stránkou
+        form.submit();
+        return;
+      }
+      if (btn) btn.disabled = false;
+      if (label) label.textContent = 'Odeslat poptávku';
+    });
+  }
+</script>

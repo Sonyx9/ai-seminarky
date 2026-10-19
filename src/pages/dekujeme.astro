@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site, url } from '../lib/site';
+---
+<Base title="Děkujeme, poptávku máme" description="Potvrzení přijaté poptávky a co bude dál." noindex minimalHeader>
+  <section class="container-site section">
+    <div class="max-w-[64ch]">
+      <span class="w-14 h-14 rounded-full bg-success-500 text-white inline-flex items-center justify-center mb-6"><Icon name="check" size={28} /></span>
+      <p class="eyebrow mb-3">Poptávka přijata</p>
+      <h1 class="mb-4">Děkujeme. <span class="mark">Ozveme se do 24 hodin.</span></h1>
+      <p class="text-ink-700 mb-2">Na váš e-mail jsme poslali potvrzení se shrnutím poptávky<span data-id-wrap class="hidden"> a číslem <strong data-id class="text-ink-900"></strong></span>. Pokud nedorazilo, zkontrolujte hromadnou poštu nebo nám napište na <a href={`mailto:${site.email}`} class="prose-link">{site.email}</a>.</p>
+
+      <h2 class="!text-[24px] mt-10 mb-4">Co si zatím připravit</h2>
+      <ul class="flex flex-col gap-3 text-ink-900">
+        {[
+          'Posudek, e-mail od vedoucího nebo výstup z kontrolního systému – přesné znění toho, co škola vytýká.',
+          'Aktuální verzi práce a pokyny školy k formální úpravě a citacím.',
+          'Termín: odevzdání, opravná obhajoba nebo lhůta na reakci.',
+          'Vaše poznámky, zdroje a starší verze textu – hodí se jako doklad vlastního postupu.',
+        ].map((t) => <li class="flex gap-3"><Icon name="file-text" size={22} class="shrink-0 text-teal-600 mt-0.5" /><span>{t}</span></li>)}
+      </ul>
+      <p class="text-ink-700 mt-6">Nic z toho zatím neposílejte – napíšeme vám, co přesně budeme potřebovat, a pošlete to odpovědí na náš e-mail.</p>
+
+      <div class="mt-10 flex flex-col sm:flex-row gap-3">
+        <a href={url('/ai-v-bakalarske-praci/')} class="btn-secondary">Jak školy odhalují AI</a>
+        <a href={url('/')} class="btn-outline">Zpět na úvod</a>
+      </div>
+    </div>
+  </section>
+  <script>
+    const id = new URLSearchParams(location.search).get('id');
+    if (id && /^OP-\d{6}-[A-Z0-9]{4}$/.test(id)) {
+      const el = document.querySelector('[data-id]');
+      const wrap = document.querySelector('[data-id-wrap]');
+      if (el && wrap) { el.textContent = id; wrap.classList.remove('hidden'); }
+    }
+  </script>
+</Base>

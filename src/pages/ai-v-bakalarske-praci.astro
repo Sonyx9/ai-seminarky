@@ -1,0 +1,91 @@
+---
+/**
+ * Článek – jediný organický tah webu (KW: detekce ai v bakalářské práci, turnitin ai, ai detektor).
+ * 🤖 Obecné znalosti, žádná konkrétní čísla ani jména škol – před publikací zkontrolovat s klientkou.
+ */
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site, url } from '../lib/site';
+const published = '2026-10-19';
+---
+<Base title="AI v bakalářské práci: jak ji školy odhalují a co dělat, když vás označili" description="Jak fungují AI detektory (Turnitin a další), proč se mýlí, co znamená „podezření na AI“ v posudku a jak postupovat, aby práce obstála.">
+  <article class="container-site section">
+    <header class="max-w-[64ch] mb-12">
+      <p class="eyebrow mb-3">Průvodce</p>
+      <h1 class="mb-5">AI v bakalářské práci: <span class="mark">jak ji školy odhalují</span> a co dělat, když vás označili</h1>
+      <p class="lead">Detektor ukázal 60 % „AI“, vedoucí vrátil práci, komise se ptá na zdroje. Co se vlastně stalo, co z toho je důkaz a jaký postup dává smysl.</p>
+      <p class="text-[14px] text-ink-500 mt-4">Aktualizováno <time datetime={published}>19. 10. 2026</time> · {site.operator.name}</p>
+    </header>
+
+    <div class="grid gap-12 lg:grid-cols-[1fr_320px]">
+      <div class="max-w-[68ch] flex flex-col gap-10 [&_h2]:mb-3 [&_p]:text-ink-700 [&_li]:text-ink-700">
+        <section>
+          <h2>Jak školy poznají, že text psala AI</h2>
+          <p>Většinou kombinací tří věcí – a detektor je z nich ta nejméně spolehlivá.</p>
+          <ol class="list-decimal pl-5 flex flex-col gap-3 mt-4">
+            <li><strong class="text-ink-900">Detektory AI textu.</strong> Nástroje jako Turnitin (modul pro detekci AI psaní) nebo samostatné online detektory odhadují, jak „předvídatelný“ je text – jestli volí slova a stavbu vět tak, jak to typicky dělají jazykové modely. Výstupem je pravděpodobnost, ne důkaz. České systémy pro kontrolu originality (Theses, Odevzdej) primárně hledají shodu s jinými texty; detekce AI v nich závisí na tom, co má škola zapnuté.</li>
+            <li><strong class="text-ink-900">Vedoucí a oponent.</strong> Zkušený čtenář pozná text, který „o něčem mluví, ale nic neříká“: obecné formulace bez odkazu na zdroj, jistota bez dat, citace, které nejdou dohledat, jiný styl v jedné kapitole než ve zbytku práce, chybějící vazba na vaše vlastní výzkum nebo praxi.</li>
+            <li><strong class="text-ink-900">Obhajoba.</strong> Komise se zeptá, proč jste zvolili danou metodu, odkud je konkrétní číslo nebo co znamená pojem v třetí kapitole. Kdo text nepsal nebo mu nerozumí, pozná se během minuty.</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Proč se detektory mýlí – oběma směry</h2>
+          <p>Detektor měří styl, ne původ. Formální, učebnicově uhlazený text (a přesně tak se akademické texty mají psát) vychází „podezřele“ často i u lidí, kteří AI nikdy neotevřeli. Naopak text po drobných úpravách detektor často neoznačí. Proto školy u nás i v zahraničí berou výstup detektoru jako podnět k rozhovoru se studentem, ne jako rozsudek – a proto nemá smysl s detektorem „bojovat“. Rozhoduje, jestli umíte práci obhájit a doložit.</p>
+        </section>
+
+        <section>
+          <h2>Co znamená „podezření na AI“ v posudku</h2>
+          <p>Záleží na pravidlech vaší školy. Některé fakulty použití AI při psaní zakazují, jiné ho povolují s podmínkou, že ho v práci uvedete, a většina to dnes má popsané ve studijním řádu, směrnici k závěrečným pracím nebo v zadání. Podezření typicky vede k jednomu z těchto kroků: vrácení práce k přepracování, doplňující otázky u obhajoby, nebo – u prokázaného podvodu – disciplinární řízení.</p>
+          <p>Praktický dopad: dokud nevíte, <em>co přesně</em> škola vytýká a <em>podle jakého pravidla</em>, nemůžete na to správně reagovat. První krok je vždy zjistit znění výtky a označené pasáže.</p>
+        </section>
+
+        <section>
+          <h2>Co udělat hned</h2>
+          <ol class="list-decimal pl-5 flex flex-col gap-3 mt-2">
+            <li><strong class="text-ink-900">Vyžádejte si konkrétní pasáže a pravidlo.</strong> Slušně, písemně: které části práce byly označeny a podle kterého předpisu se postupuje.</li>
+            <li><strong class="text-ink-900">Sesbírejte doklady vlastního postupu.</strong> Starší verze dokumentu, poznámky, výpisky ze zdrojů, e-maily s vedoucím, data z výzkumu. Historie verzí ve Wordu nebo Google Docs je často nejsilnější argument.</li>
+            <li><strong class="text-ink-900">Projděte označené pasáže věcně.</strong> Je každé tvrzení podložené zdrojem? Jde zdroj dohledat? Není tam obecná „omáčka“ bez obsahu? Tohle jsou věci, které vadí i bez ohledu na AI.</li>
+            <li><strong class="text-ink-900">Pokud jste AI použili, buďte k sobě upřímní v tom, jak.</strong> Pomoc s formulací vlastních myšlenek je něco jiného než převzatý text. Podle pravidel školy může být správné použití v práci uvést.</li>
+            <li><strong class="text-ink-900">Domluvte si konzultaci s vedoucím.</strong> S připraveným seznamem úprav a doklady. Většina situací se vyřeší přepracováním, ne řízením.</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Co nedělat</h2>
+          <ul class="flex flex-col gap-3 mt-2">
+            {[
+              'Nespouštět text přes „humanizéry“ a přepisovací nástroje. Výsledkem je text, který nikdo nenapsal, stále bez zdrojů, a při obhajobě ho neobhájíte.',
+              'Nehádat se s číslem z detektoru. Argumentujte obsahem, zdroji a doklady postupu, ne tím, že jiný detektor ukázal 12 %.',
+              'Nepřepisovat celou práci ve stresu za víkend. Většinou je potřeba opravit konkrétní kapitoly a doplnit zdroje, ne začít od nuly.',
+            ].map((t) => <li class="flex gap-3"><Icon name="x" size={22} class="shrink-0 text-coral-600 mt-0.5" /><span>{t}</span></li>)}
+          </ul>
+        </section>
+
+        <section>
+          <h2>S čím vám pomůžeme</h2>
+          <p>Projdeme posudek a označené pasáže, sestavíme seznam konkrétních úprav a práci s vámi po částech dopracujeme: zdroje a citace podle normy školy, argumentace, struktura, jazyková a formální korektura. Na závěr připravíme shrnutí změn, které umíte vysvětlit vedoucímu i komisi. Nepíšeme za vás a neupravujeme text „pro detektor“ – řešíme to, co škole vadí doopravdy.</p>
+          <div class="flex flex-col sm:flex-row gap-3 mt-6">
+            <a href={url('/kontakt/#formular')} class="btn-primary">Nezávazně poptat</a>
+            <a href={site.phoneHref} class="btn-outline"><Icon name="phone" size={18} />{site.phone}</a>
+          </div>
+        </section>
+      </div>
+
+      <aside class="lg:sticky lg:top-28 self-start bg-paper-100 p-6 flex flex-col gap-4">
+        <p class="eyebrow">Ve zkratce</p>
+        <ul class="flex flex-col gap-3 text-[15px] text-ink-900">
+          {[
+            'Detektor dává pravděpodobnost, ne důkaz.',
+            'Zjistěte přesné znění výtky a pravidlo školy.',
+            'Doložte postup: verze, poznámky, zdroje.',
+            'Opravte obsah a citace, ne „skóre“.',
+            'Jděte za vedoucím s plánem úprav.',
+          ].map((t) => <li class="flex gap-2"><Icon name="check" size={18} class="shrink-0 text-coral-500 mt-1" />{t}</li>)}
+        </ul>
+        <p class="text-[14px] text-ink-700 border-t border-line-200 pt-4">Odpovídáme {site.responseTime}, i o víkendu. První konzultace zdarma.</p>
+        <a href={url('/kontakt/#formular')} class="btn-secondary">Popsat situaci</a>
+      </aside>
+    </div>
+  </article>
+</Base>

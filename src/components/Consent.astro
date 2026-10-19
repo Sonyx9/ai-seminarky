@@ -1,0 +1,55 @@
+---
+/**
+ * Souhlas s analytickými cookies (GA4). V ČR je analytika opt-in → GA4 se načte až po „Přijmout“.
+ * Bez souhlasu se nic neukládá ani nenačítá. Volba v localStorage (per prohlížeč), lze změnit z patičky.
+ */
+import { ga4Id, url } from '../lib/site';
+---
+{ga4Id && (
+  <div
+    class="hidden fixed inset-x-0 bottom-0 z-[60] bg-paper-000 border-t border-line-200 shadow-bar"
+    style="padding-bottom: env(safe-area-inset-bottom)"
+    role="region"
+    aria-label="Nastavení cookies"
+    data-consent
+    data-ga={ga4Id}
+  >
+    <div class="container-site py-4 flex flex-col md:flex-row md:items-center gap-4">
+      <p class="text-[15px] text-ink-700 m-0 md:flex-1">Používáme anonymizovanou návštěvnost (Google Analytics), abychom věděli, které části webu pomáhají. Bez vašeho souhlasu se nic neměří. <a href={url('/ochrana-osobnich-udaju/')} class="prose-link">Více</a></p>
+      <div class="flex gap-3">
+        <button type="button" class="btn-outline !min-h-11 !py-2 !text-[17px]" data-consent-deny>Odmítnout</button>
+        <button type="button" class="btn-secondary !min-h-11 !py-2 !text-[17px]" data-consent-allow>Přijmout</button>
+      </div>
+    </div>
+  </div>
+)}
+<script>
+  const box = document.querySelector<HTMLElement>('[data-consent]');
+  if (box) {
+    const KEY = 'consent-analytics';
+    const ga = box.dataset.ga!;
+    const read = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
+    const write = (v: string) => { try { localStorage.setItem(KEY, v); } catch {} };
+    const loadGa = () => {
+      if ((window as any).__gaLoaded) return;
+      (window as any).__gaLoaded = true;
+      const w = window as any;
+      w.dataLayer = w.dataLayer || [];
+      w.gtag = function () { w.dataLayer.push(arguments); };
+      w.gtag('js', new Date());
+      w.gtag('config', ga, { anonymize_ip: true });
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ga)}`;
+      document.head.appendChild(s);
+    };
+    const show = () => box.classList.remove('hidden');
+    const hide = () => box.classList.add('hidden');
+    const state = read();
+    if (state === 'granted') loadGa();
+    else if (state !== 'denied') show();
+    box.querySelector('[data-consent-allow]')?.addEventListener('click', () => { write('granted'); hide(); loadGa(); });
+    box.querySelector('[data-consent-deny]')?.addEventListener('click', () => { write('denied'); hide(); });
+    document.querySelectorAll('[data-consent-open]').forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); show(); }));
+  }
+</script>

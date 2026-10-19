@@ -1,0 +1,38 @@
+---
+/**
+ * Text odpovídá skutečnému zpracování na tomto webu (formulář → Apps Script → e-mail; GA4 jen po souhlasu).
+ * ❓ Před spuštěním potvrdí klientka (správce). Není právní stanovisko.
+ */
+import Base from '../layouts/Base.astro';
+import { site } from '../lib/site';
+---
+<Base title="Ochrana osobních údajů a cookies" description="Jak nakládáme s údaji z poptávkového formuláře a jaké cookies web používá.">
+  <article class="container-site section max-w-[70ch] [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:!text-[24px] [&_p]:text-ink-700 [&_li]:text-ink-700 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-2">
+    <p class="eyebrow mb-3">Právní informace</p>
+    <h1 class="mb-4">Ochrana osobních údajů <span class="mark">a cookies</span></h1>
+    <p>Správcem osobních údajů je <strong class="text-ink-900">{site.operator.name}</strong>, IČO {site.operator.ico}, {site.operator.address}, e-mail <a href={`mailto:${site.email}`} class="prose-link">{site.email}</a>.</p>
+
+    <h2>Poptávkový formulář</h2>
+    <p>Když odešlete poptávku, zpracováváme jméno, e-mail, případně telefon, typ práce, popis situace a termín, které do formuláře uvedete. Účelem je odpovědět vám a připravit nabídku (jednání o smlouvě, čl. 6 odst. 1 písm. b) GDPR). Údaje uchováváme po dobu jednání a následně po dobu nezbytnou k ochraně právních nároků; pokud ke spolupráci nedojde, nejpozději 12 měsíců od poptávky.</p>
+    <p>Technicky formulář odesílá data přes službu Google Apps Script (Google Ireland Ltd.), která z nich sestaví e-mail správci a potvrzení pro vás. Google může údaje zpracovávat i mimo EU na základě standardních smluvních doložek. Do formuláře nenahrávejte samotnou práci ani posudky – pošlete je až po domluvě e-mailem a jen v nezbytném rozsahu.</p>
+
+    <h2>Práce a dokumenty, které nám pošlete</h2>
+    <p>Texty prací, posudky a související dokumenty používáme výhradně pro domluvenou službu. Nepředáváme je třetím stranám, nezveřejňujeme je a po ukončení spolupráce je na vyžádání smažeme.</p>
+
+    <h2>Cookies a měření návštěvnosti</h2>
+    <p>Web sám o sobě žádné sledovací cookies neukládá. Pokud udělíte souhlas v liště dole na stránce, načte se služba Google Analytics 4 (Google Ireland Ltd.), která ukládá cookies <code>_ga</code> a <code>_ga_*</code> (platnost až 2 roky) a měří anonymizovanou návštěvnost – které stránky lidé čtou a zda dokončí poptávku. Bez souhlasu se nic neměří. Své rozhodnutí můžete kdykoli změnit odkazem <em>Nastavení cookies</em> v patičce. Vaše volba se ukládá v prohlížeči (localStorage), nikoli u nás.</p>
+
+    <h2>Vaše práva</h2>
+    <ul>
+      <li>právo na přístup k údajům, jejich opravu nebo výmaz,</li>
+      <li>právo na omezení zpracování a vznesení námitky,</li>
+      <li>právo na přenositelnost údajů,</li>
+      <li>právo podat stížnost u Úřadu pro ochranu osobních údajů (uoou.gov.cz).</li>
+    </ul>
+    <p>Napište na <a href={`mailto:${site.email}`} class="prose-link">{site.email}</a> – odpovíme do 30 dnů.</p>
+
+    <h2>Provozovatel webu</h2>
+    <p>{site.operator.name}, IČO {site.operator.ico}, se sídlem {site.operator.address}. Fyzická osoba podnikající podle živnostenského zákona, zapsaná v živnostenském rejstříku.{site.operator.vat ? ` ${site.operator.vat}` : ''}</p>
+    <p class="text-[14px] text-ink-500">Platné od 19. 10. 2026.</p>
+  </article>
+</Base>

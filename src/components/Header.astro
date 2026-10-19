@@ -1,0 +1,69 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { site, nav, url } from '../lib/site';
+interface Props { minimal?: boolean }
+const { minimal = false } = Astro.props;
+const current = Astro.url.pathname;
+---
+<header class="sticky top-0 z-50 bg-paper-000 border-b border-line-200" data-header>
+  <div class="container-site flex items-center justify-between gap-4 h-16 md:h-20">
+    <Logo />
+
+    {/* Desktop */}
+    <nav class="hidden lg:flex items-center gap-7 font-condensed text-[19px]" aria-label="Hlavní navigace">
+      {nav.map((item) => (
+        <a
+          href={url(item.href)}
+          class={`no-underline text-ink-900 hover:text-coral-600 py-2 ${current === url(item.href) ? 'underline decoration-2 underline-offset-4' : ''}`}
+          aria-current={current === url(item.href) ? 'page' : undefined}
+        >{item.label}</a>
+      ))}
+    </nav>
+    <div class="hidden lg:flex items-center gap-3">
+      <a href={site.phoneHref} class="pill-coral"><Icon name="phone" size={18} />{site.phone}</a>
+      {!minimal && <a href={url('/kontakt/#formular')} class="btn-primary">Nezávazně poptat</a>}
+    </div>
+
+    {/* Mobil: Zavolat uprostřed, hamburger vpravo */}
+    <div class="flex lg:hidden items-center gap-2">
+      <a href={site.phoneHref} class="pill-coral !px-4" aria-label={`Zavolat ${site.phone}`}><Icon name="phone" size={18} /><span>Zavolat</span></a>
+      <details class="group" data-menu>
+        <summary class="list-none cursor-pointer flex items-center justify-center w-12 h-12 -mr-2 text-ink-900 hover:text-coral-600" aria-label="Menu">
+          <span class="group-open:hidden"><Icon name="menu" /></span>
+          <span class="hidden group-open:inline"><Icon name="x" /></span>
+        </summary>
+        <div class="absolute inset-x-0 top-full z-40 h-[calc(100dvh-4rem)] bg-paper-000 overflow-y-auto border-t border-line-200" style="padding-bottom: env(safe-area-inset-bottom)">
+          <nav class="container-site flex flex-col py-6" aria-label="Mobilní navigace">
+            {nav.map((item) => (
+              <a href={url(item.href)} class="no-underline font-condensed text-[24px] text-ink-900 py-4 border-b border-line-200 hover:text-coral-600" data-menu-link>{item.label}</a>
+            ))}
+            <div class="mt-8 flex flex-col gap-3">
+              <a href={url('/kontakt/#formular')} class="btn-primary w-full" data-menu-link>Nezávazně poptat</a>
+              <a href={site.phoneHref} class="btn-outline w-full"><Icon name="phone" size={18} />{site.phone}</a>
+              <a href={`mailto:${site.email}`} class="text-center text-ink-700 text-[16px] py-2">{site.email}</a>
+            </div>
+          </nav>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Zavřít menu po kliknutí na odkaz / Escape a zamknout scroll pod otevřeným menu. Bez JS funguje <details> samo.
+  const menu = document.querySelector<HTMLDetailsElement>('[data-menu]');
+  if (menu) {
+    const sync = () => document.documentElement.classList.toggle('overflow-hidden', menu.open);
+    menu.addEventListener('toggle', sync);
+    menu.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => { menu.open = false; }));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') menu.open = false; });
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => { if (e.matches) menu.open = false; });
+  }
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    const onScroll = () => header.classList.toggle('shadow-bar', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>

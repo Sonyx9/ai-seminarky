@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/site';
+---
+<Base title="Stránka nenalezena" description="Tato stránka neexistuje." noindex>
+  <section class="container-site section max-w-[60ch]">
+    <p class="eyebrow mb-3">Chyba 404</p>
+    <h1 class="mb-4">Tahle stránka <span class="mark">tu není</span></h1>
+    <p class="text-ink-700 mb-8">Odkaz je nejspíš starý nebo v něm je překlep. Zkuste úvodní stránku nebo rovnou kontakt.</p>
+    <div class="flex flex-col sm:flex-row gap-3"><a href={url('/')} class="btn-primary">Na úvod</a><a href={url('/kontakt/')} class="btn-outline">Kontakt</a></div>
+  </section>
+</Base>

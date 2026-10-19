@@ -1,0 +1,205 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Expand from '../components/Expand.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import { site, url } from '../lib/site';
+
+const situace = [
+  {
+    title: 'Škola nebo detektor označili část práce jako AI',
+    body: [
+      'Vedoucí, oponent nebo kontrolní nástroj uvedl, že část textu „pravděpodobně napsala umělá inteligence“. Práce se vrací, hodnocení se odkládá, někdy hrozí disciplinární řízení.',
+      'Projdeme posudek a označené pasáže, zjistíme, co přesně škola vytýká (chybějící zdroje, obecné formulace, nepodložená tvrzení), a navrhneme, jak text dopracovat – s vašimi zdroji, daty a argumenty. Pomůžeme i s doložením postupu psaní pro vedoucího.',
+    ],
+  },
+  {
+    title: 'Práce neprošla kontrolou originality nebo citací',
+    body: [
+      'Vysoká míra shody v systému školy, chybějící nebo špatně zapsané zdroje, odstavce bez odkazu, citace, které nejdou dohledat.',
+      'Zkontrolujeme citace a zdroje proti požadované normě, najdeme pasáže, které je potřeba přeformulovat nebo řádně ocitovat, a projdeme s vámi, jak s texty pracovat dál. Výsledkem je práce, u které umíte každé tvrzení obhájit.',
+    ],
+  },
+  {
+    title: 'Neúspěšná obhajoba – připravujete se na opravný termín',
+    body: [
+      'Komise práci neuznala nebo ji vrátila k přepracování. Máte posudky, připomínky a jeden další pokus.',
+      'Z posudků sestavíme seznam konkrétních úprav, nastavíme pořadí a termíny, a pak s vámi práci po částech dopracujeme: struktura, metodika, argumentace, jazyková a formální korektura. Na závěr projdeme i přípravu na samotnou obhajobu.',
+    ],
+  },
+];
+
+const delame = [
+  'Rozbor posudku a připomínek školy – co přesně se vytýká a co s tím',
+  'Odborná jazyková a stylistická korektura s věcnou zpětnou vazbou',
+  'Kontrola citací a zdrojů podle normy vaší školy',
+  'Konzultace k metodice, struktuře a argumentaci – dopracování vlastního textu',
+  'Přehled originality jako podklad pro další úpravy',
+  'Příprava na opravnou obhajobu',
+];
+const nedelame = [
+  'Nepíšeme práce ani jejich části za vás',
+  'Neupravujeme text tak, aby „prošel detektorem“ – řešíme obsah, zdroje a argumenty, ne obcházení kontroly',
+  'Nevydáváme cizí text za váš a nepomáháme s podvodem při obhajobě',
+  'Neslibujeme výsledek hodnocení – to je vždy na škole',
+];
+
+const kroky = [
+  { n: '1', t: 'Pošlete poptávku', d: 'Pár vět o tom, co se stalo, typ práce a termín. Posudek a práci pošlete až po domluvě e-mailem.' },
+  { n: '2', t: 'Nabídka do 24 hodin', d: 'Napíšeme, co jsme v podkladech našli, navrhneme postup, rozsah a cenu. První konzultace je zdarma.' },
+  { n: '3', t: 'Pracujeme po částech', d: 'Dostáváte zpětnou vazbu a návrhy úprav ke konkrétním kapitolám, průběžně se domlouváme. Text zůstává váš.' },
+  { n: '4', t: 'Finální kontrola', d: 'Korektura, citace, formální náležitosti a shrnutí změn, které umíte vysvětlit vedoucímu i komisi.' },
+];
+
+const faq = [
+  { q: 'Je to legální a v souladu s pravidly školy?', a: 'Konzultace, korektura a kontrola citací jsou běžná podpora při psaní – stejně jako konzultace s vedoucím nebo jazyková korektura v knihovně. Text píšete vy; my pomáháme s tím, aby byl podložený, správně citovaný a jazykově čistý. Pokud má vaše škola konkrétní pravidla pro externí pomoc, řekněte nám o nich – přizpůsobíme se jim.' },
+  { q: 'Pomůžete mi, aby práce „prošla přes AI detektor“?', a: 'Ne. Detektory jsou nespolehlivé oběma směry a obcházení kontroly by vám při obhajobě nepomohlo. Řešíme to, co škole ve skutečnosti vadí: nepodložená tvrzení, chybějící zdroje, obecný text. Když je práce opřená o vaše zdroje a argumenty, umíte ji obhájit bez ohledu na to, co říká nástroj.' },
+  { q: 'Jak rychle to zvládneme?', a: 'Na poptávku odpovídáme do 24 hodin, i o víkendu. Rozsah a termín úprav záleží na délce práce a tom, co škola vytkla – dostanete je v nabídce. Expresní termíny jsou možné po domluvě.' },
+  { q: 'Kolik to stojí?', a: 'Cena vychází z rozsahu práce a typu úprav (korektura, kontrola citací, konzultace k přepracování). Konkrétní částku dostanete v nabídce do 24 hodin, první konzultace je zdarma.' },
+  { q: 'Musím práci nahrávat do formuláře?', a: 'Ne. Ve formuláři stačí popsat situaci. Práci a posudek pošlete e-mailem až po první domluvě – a jen v rozsahu, který je potřeba.' },
+];
+---
+<Base title="Oprava a kontrola závěrečné práce – i když ji škola označila za AI" description="Práci označili jako AI, neprošla kontrolou citací nebo obhajobou? Rozbor posudku, korektura, kontrola zdrojů a dopracování s vámi. Odpověď do 24 hodin, první konzultace zdarma.">
+  {/* HERO */}
+  <section class="relative overflow-hidden bg-paper-000">
+    <div class="bubble w-[520px] h-[520px] -right-40 -top-56 hidden md:block"></div>
+    <div class="container-site relative section !pb-12 md:!pb-20 grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+      <div>
+        <p class="eyebrow mb-4">Kontrola a oprava bakalářských a diplomových prací</p>
+        <h1 class="mb-5">Škola označila práci za AI, nebo neprošla? <span class="mark">Dáme ji do pořádku</span> – s vámi a poctivě.</h1>
+        <p class="lead mb-8">Projdeme posudek, najdeme, co přesně škola vytýká, a práci spolu dopracujeme tak, aby obstála u vedoucího i komise. Žádné psaní za vás, žádné triky na detektory.</p>
+        <div class="flex flex-col sm:flex-row gap-3 mb-8">
+          <a href="#formular" class="btn-primary">Nezávazně poptat</a>
+          <a href={site.phoneHref} class="btn-outline"><Icon name="phone" size={18} />{site.phone}</a>
+        </div>
+        <ul class="flex flex-wrap gap-x-8 gap-y-3 text-[15px] text-ink-700">
+          <li class="flex items-center gap-2"><Icon name="check" size={18} class="text-coral-500" />Odpověď do 24 hodin, i o víkendu</li>
+          <li class="flex items-center gap-2"><Icon name="check" size={18} class="text-coral-500" />První konzultace zdarma</li>
+          <li class="flex items-center gap-2"><Icon name="check" size={18} class="text-coral-500" />{site.proof}</li>
+        </ul>
+      </div>
+      <aside class="bg-paper-100 p-6 md:p-8" aria-label="Co dostanete">
+        <p class="eyebrow mb-4">Co dostanete</p>
+        <ul class="flex flex-col gap-4">
+          {[
+            ['Rozbor posudku', 'Co přesně škola vytýká a které pasáže to řeší.'],
+            ['Plán úprav', 'Seznam konkrétních kroků, pořadí a termíny.'],
+            ['Korektura a citace', 'Jazyk, styl, zdroje a norma vaší školy.'],
+            ['Text, který obhájíte', 'Shrnutí změn pro vedoucího i komisi.'],
+          ].map(([t, d]) => (
+            <li class="flex gap-4">
+              <span class="w-10 h-10 shrink-0 rounded-full bg-coral-500 text-white inline-flex items-center justify-center"><Icon name="check" size={20} /></span>
+              <div><p class="font-serif font-semibold text-[17px] text-teal-600 leading-snug">{t}</p><p class="text-[15px] text-ink-700">{d}</p></div>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  {/* SITUACE */}
+  <section class="section bg-paper-000 !pt-8 md:!pt-12" id="situace" aria-labelledby="situace-h">
+    <div class="container-site">
+      <p class="eyebrow mb-3">Obraťte se na nás</p>
+      <h2 id="situace-h" class="mb-8 max-w-[28ch]">Tři situace, <span class="mark">které řešíme nejčastěji</span></h2>
+      <div class="grid gap-x-10 lg:grid-cols-3">
+        {situace.map((s) => (
+          <Expand title={s.title} class="border-t">
+            {s.body.map((p) => <p>{p}</p>)}
+          </Expand>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* DĚLÁME / NEDĚLÁME */}
+  <section class="section relative overflow-hidden bg-paper-000" aria-labelledby="delame-h">
+    <div class="bubble w-[420px] h-[420px] -left-48 bottom-[-180px] hidden md:block"></div>
+    <div class="container-site relative">
+      <h2 id="delame-h" class="mb-10 max-w-[30ch]">Co děláme <span class="mark">a co ne</span></h2>
+      <div class="grid gap-10 md:grid-cols-2">
+        <div>
+          <p class="eyebrow mb-4 text-success-500">Děláme</p>
+          <ul class="flex flex-col gap-3">
+            {delame.map((i) => <li class="flex gap-3 text-ink-900"><Icon name="check" size={22} class="shrink-0 text-success-500 mt-0.5" /><span>{i}</span></li>)}
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow mb-4 text-coral-600">Neděláme</p>
+          <ul class="flex flex-col gap-3">
+            {nedelame.map((i) => <li class="flex gap-3 text-ink-900"><Icon name="x" size={22} class="shrink-0 text-coral-600 mt-0.5" /><span>{i}</span></li>)}
+          </ul>
+          <p class="mt-6 text-[15px] text-ink-700">Je to férové k vám i ke škole – a je to jediný postup, který při obhajobě skutečně drží.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* POSTUP */}
+  <section class="section bg-sand-200" id="postup" aria-labelledby="postup-h">
+    <div class="container-site">
+      <h2 id="postup-h" class="mb-10 text-ink-900">Jak to <span class="text-coral-600 font-bold">probíhá</span></h2>
+      <ol class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        {kroky.map((k) => (
+          <li>
+            <span class="block font-condensed font-semibold text-[56px] leading-none text-teal-500 mb-2" aria-hidden="true">{k.n}</span>
+            <h3 class="font-condensed font-semibold uppercase tracking-[0.02em] text-[26px] text-coral-600 mb-2 !font-condensed">{k.t}</h3>
+            <p class="text-ink-900 text-[15px]">{k.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* CENA */}
+  <section class="section bg-paper-000" id="cena" aria-labelledby="cena-h">
+    <div class="container-site grid gap-10 lg:grid-cols-[1fr_1fr]">
+      <div>
+        <p class="eyebrow mb-3">Cena</p>
+        <h2 id="cena-h" class="mb-4">Kolik to <span class="mark">stojí</span></h2>
+        <p class="text-ink-700 mb-4">Cena vychází z rozsahu práce (normostrany) a z toho, co je potřeba: samotná korektura a kontrola citací je levnější než přepracování kapitol po neúspěšné obhajobě.</p>
+        <p class="text-ink-700">Konkrétní nabídku s cenou a termínem dostanete do 24 hodin po poptávce.</p>
+      </div>
+      <ul class="flex flex-col gap-4 bg-paper-100 p-6 md:p-8">
+        {[
+          ['První konzultace zdarma', 'Projdeme situaci a řekneme si, jestli a jak dává smysl pokračovat.'],
+          ['Nabídka před začátkem', 'Rozsah, postup, termín a cena písemně – žádné překvapení v průběhu.'],
+          ['Platíte za úpravy, ne za sliby', 'Výsledek hodnocení je vždy na škole; my ručíme za kvalitu práce na textu.'],
+        ].map(([t, d]) => (
+          <li class="flex gap-4"><Icon name="check" size={22} class="shrink-0 text-coral-500 mt-0.5" /><div><p class="font-semibold text-ink-900">{t}</p><p class="text-[15px] text-ink-700">{d}</p></div></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* KDO */}
+  <section class="section bg-paper-100" id="kdo" aria-labelledby="kdo-h">
+    <div class="container-site grid gap-10 md:grid-cols-[280px_1fr] md:items-start">
+      <div class="aspect-[4/5] max-w-[280px] bg-paper-200 flex items-end p-4 text-[13px] text-ink-500" data-placeholder="foto">Fotografie Miroslavy Jirákové – dodá klientka</div>
+      <div>
+        <p class="eyebrow mb-3">Kdo s vámi bude pracovat</p>
+        <h2 id="kdo-h" class="mb-4">{site.operator.name}</h2>
+        <p class="text-ink-700 mb-4">Provozuje poradnu <a href={site.parentSite} class="prose-link" rel="noopener">TOP seminárky</a> a korekturní službu Korektu. Pomáhá studentům s bakalářskými, diplomovými a MBA pracemi – s metodikou, strukturou, zdroji i jazykovou stránkou. Konzultuje i práce, jejichž část vznikla s pomocí AI a škola to vytkla.</p>
+        <p class="text-ink-700">Na poptávky odpovídá osobně, obvykle do 24 hodin, včetně víkendů.</p>
+      </div>
+    </div>
+  </section>
+
+  {/* FAQ */}
+  <section class="section bg-paper-000" id="faq" aria-labelledby="faq-h">
+    <div class="container-site grid gap-8 lg:grid-cols-[1fr_2fr]">
+      <div>
+        <p class="eyebrow mb-3">Časté dotazy</p>
+        <h2 id="faq-h">Na co se <span class="mark">ptáte nejčastěji</span></h2>
+        <p class="text-ink-700 mt-4">Nenašli jste odpověď? <a href="#formular" class="prose-link">Napište nám</a> nebo zavolejte na {site.phone}.</p>
+      </div>
+      <div class="border-t border-line-200">
+        {faq.map((f) => (
+          <Expand title={f.q} titleClass="!text-ink-900 !text-[18px]" name="faq"><p>{f.a}</p></Expand>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ContactBlock />
+</Base>

@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import { site } from '../lib/site';
+---
+<Base title="Kontakt a nezávazná poptávka" description="Napište, co se s vaší prací stalo. Odpovídáme do 24 hodin, i o víkendu. První konzultace zdarma.">
+  <section class="container-site pt-12 md:pt-16">
+    <p class="eyebrow mb-3">Kontakt</p>
+    <h1 class="mb-4">Ozvěte se – <span class="mark">čím dřív, tím víc času</span> na úpravy</h1>
+    <p class="lead max-w-[60ch]">Na poptávky odpovídá {site.operator.name} osobně, obvykle {site.responseTime}, včetně víkendů. Telefon je nejrychlejší, formulář nejpřesnější – do nabídky potřebujeme vědět, co škola vytkla a do kdy.</p>
+  </section>
+  <ContactBlock heading="Poptávka" />
+</Base>
